@@ -1,5 +1,7 @@
 # Secure Kubernetes Platform Hardening
 
+[![CI](https://github.com/mrsddq/secure-kubernetes-platform-hardening/actions/workflows/ci.yml/badge.svg)](https://github.com/mrsddq/secure-kubernetes-platform-hardening/actions/workflows/ci.yml)
+
 Kubernetes security portfolio repo focused on platform guardrails: namespace hardening, NetworkPolicies, least-privilege RBAC, Pod Security Standards, Kyverno policies, OPA examples, secret delivery, image scanning, and CI security gates.
 
 ## What This Builds
@@ -40,6 +42,10 @@ Optional cluster-side checks:
 kubectl apply --dry-run=server -f kubernetes/base/namespace.yaml
 kubectl apply --dry-run=server -f policies/kyverno/
 ```
+
+## Portfolio Evidence
+
+See [docs/PORTFOLIO_EVIDENCE.md](docs/PORTFOLIO_EVIDENCE.md) for validation commands, control mapping, and interview proof points.
 
 ## What This Proves
 
