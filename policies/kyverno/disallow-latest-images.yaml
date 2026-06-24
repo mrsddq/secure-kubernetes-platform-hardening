@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-latest-images
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: require-immutable-image-tag
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: Images must use explicit immutable tags, not latest.
+        foreach:
+          - list: request.object.spec.containers
+            deny:
+              conditions:
+                any:
+                  - key: "{{ element.image }}"
+                    operator: EndsWith
+                    value: ":latest"

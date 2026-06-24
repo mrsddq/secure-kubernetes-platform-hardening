@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-privileged
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: disallow-privileged-containers
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: Privileged containers and privilege escalation are not allowed.
+        foreach:
+          - list: request.object.spec.containers
+            pattern:
+              securityContext:
+                =(privileged): false
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]

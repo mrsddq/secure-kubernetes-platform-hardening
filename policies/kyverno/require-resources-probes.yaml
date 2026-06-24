@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-resources-probes
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: require-resources
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: Containers must set requests, limits, readiness probes, and liveness probes.
+        foreach:
+          - list: request.object.spec.containers
+            pattern:
+              resources:
+                requests:
+                  cpu: "?*"
+                  memory: "?*"
+                limits:
+                  cpu: "?*"
+                  memory: "?*"
+              readinessProbe: "?*"
+              livenessProbe: "?*"
