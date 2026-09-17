@@ -6,18 +6,18 @@ spec:
   validationFailureAction: Enforce
   background: true
   rules:
-    - name: require-immutable-image-tag
+    - name: require-image-digest
       match:
         any:
           - resources:
               kinds: ["Pod"]
       validate:
-        message: Images must use explicit immutable tags, not latest.
+        message: All containers must reference an image by its sha256 digest; tags are mutable.
         foreach:
-          - list: request.object.spec.containers
+          - list: request.object.spec.[containers, initContainers, ephemeralContainers][]
             deny:
               conditions:
                 any:
-                  - key: "{{ element.image }}"
-                    operator: EndsWith
-                    value: ":latest"
+                  - key: "{{ regex_match('^[^@]+@sha256:[a-f0-9]{64}$', element.image) }}"
+                    operator: Equals
+                    value: false

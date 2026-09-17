@@ -21,6 +21,6 @@
 - Restricted Pod Security Standards labels
 - Default-deny network policies
 - Least-privilege RBAC
-- Immutable image tag policy
-- Non-root and read-only filesystem policy
+- SHA-256 image-digest policy covering regular, init, and ephemeral containers
+- Non-root admission policy and sample workload read-only filesystem
 - Secret delivery templates without secret material

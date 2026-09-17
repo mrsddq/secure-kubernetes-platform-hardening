@@ -17,3 +17,16 @@ spec:
           spec:
             securityContext:
               runAsNonRoot: true
+    - name: disallow-container-root-override
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+      validate:
+        message: Container security contexts must not override non-root execution.
+        foreach:
+          - list: request.object.spec.[containers, initContainers, ephemeralContainers][]
+            pattern:
+              =(securityContext):
+                =(runAsNonRoot): true
+                =(runAsUser): ">0"

@@ -23,5 +23,5 @@ spec:
                 limits:
                   cpu: "?*"
                   memory: "?*"
-              readinessProbe: "?*"
-              livenessProbe: "?*"
+              readinessProbe: {}
+              livenessProbe: {}

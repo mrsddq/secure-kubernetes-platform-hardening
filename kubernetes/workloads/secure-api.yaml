@@ -21,9 +21,16 @@ spec:
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
+      volumes:
+        - name: nginx-tmp
+          emptyDir:
+            sizeLimit: 64Mi
       containers:
         - name: api
-          image: cgr.dev/chainguard/nginx:1.27
+          image: nginxinc/nginx-unprivileged:stable-alpine@sha256:daa17b944bac2b578e962da4c61ad72a59233b3c63abea17113acaf4e6b9aea4
+          volumeMounts:
+            - name: nginx-tmp
+              mountPath: /tmp
           ports:
             - containerPort: 8080
           securityContext:

@@ -20,7 +20,7 @@
 
 - No privileged pods.
 - No hostPath mounts without exception.
-- No `latest` image tags.
+- Every regular, init and debug image uses a reviewed SHA-256 digest.
 - No broad wildcard RBAC.
 - No default service account usage.
 - No committed secret values.
