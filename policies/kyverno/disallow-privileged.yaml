@@ -14,7 +14,7 @@ spec:
       validate:
         message: Privileged containers and privilege escalation are not allowed.
         foreach:
-          - list: request.object.spec.containers
+          - list: request.object.spec.[containers, initContainers, ephemeralContainers][]
             pattern:
               securityContext:
                 =(privileged): false
